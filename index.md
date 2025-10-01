@@ -1,4 +1,17 @@
-<img src="/assets/images/profile.jpeg" alt="A portrait shot of De Ville Weppenaar from the shoulders up wearing a cap standing in front of a background of folliage and red flowers." class="gravatar" />
+<picture>
+  <source srcset="/assets/images/profile.webp 1x, /assets/images/profile@2x.webp 2x" type="image/webp">
+  <img
+    src="/assets/images/profile.jpeg"
+    srcset="/assets/images/profile.jpeg 1x, /assets/images/profile@2x.jpeg 2x"
+    alt="A portrait shot of De Ville Weppenaar from the shoulders up wearing a cap standing in front of a background of foliage and red flowers."
+    class="gravatar"
+    width="150"
+    height="150"
+    fetchpriority="high"
+    style="aspect-ratio: 1 / 1;"
+  >
+</picture>
+
 
 # de ville weppenaar
 
