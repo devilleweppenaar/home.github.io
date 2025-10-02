@@ -1,0 +1,27 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.gravatar {
+  border-radius: 50%;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  width: 150px;
+  height: 150px;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.social {
+  font-size: 2em;
+  color: #ccc;
+  padding: 8px;
+}
+
+.social:hover {
+  color: #fff;
+}
