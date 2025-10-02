@@ -19,9 +19,22 @@
 .social {
   font-size: 2em;
   color: #ccc;
-  padding: 8px;
+  margin-right: 0.25em;
+  text-decoration: none;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.social:last-child {
+  margin-right: 0;
 }
 
 .social:hover {
   color: #fff;
+  background: rgba(255,255,255,0.1);
 }
