@@ -84,3 +84,17 @@
   outline-offset: 3px;
   box-shadow: 0 6px 30px rgba(var(--accent-rgb), 0.09);
 }
+
+/* Inline flag sizing and accessible helpers */
+.flag {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em; /* nudges to match emoji baseline */
+  display: inline-block;
+  margin-right: 0.25em;
+}
+
+/* Optional: tighten spacing so the lock sits nicely */
+.inline-flags span[role="img"] {
+  margin-left: 0.125em;
+}
