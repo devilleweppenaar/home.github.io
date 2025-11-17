@@ -88,22 +88,3 @@
   outline-offset: 3px;
   box-shadow: 0 6px 30px rgba(var(--accent-rgb), 0.09);
 }
-
-/* Inline flag sizing and accessible helpers */
-.inline-flags {
-  display: inline;
-  white-space: nowrap;
-}
-
-.flag {
-  width: 1.33em;
-  height: 1em;
-  vertical-align: -0.15em;
-  display: inline-block;
-  margin-right: 0.15em;
-}
-
-.inline-flags span[role="img"] {
-  margin-left: 0.15em;
-  vertical-align: baseline;
-}
