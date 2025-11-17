@@ -10,6 +10,10 @@
   --accent-rgb: 124, 77, 255;
 }
 
+#main_content {
+  text-align: center;
+}
+
 #main_content h1,
 #main_content h1 a {
   color: var(--accent);
@@ -86,15 +90,20 @@
 }
 
 /* Inline flag sizing and accessible helpers */
-.flag {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.125em; /* nudges to match emoji baseline */
-  display: inline-block;
-  margin-right: 0.25em;
+.inline-flags {
+  display: inline;
+  white-space: nowrap;
 }
 
-/* Optional: tighten spacing so the lock sits nicely */
+.flag {
+  width: 1.33em;
+  height: 1em;
+  vertical-align: -0.15em;
+  display: inline-block;
+  margin-right: 0.15em;
+}
+
 .inline-flags span[role="img"] {
-  margin-left: 0.125em;
+  margin-left: 0.15em;
+  vertical-align: baseline;
 }

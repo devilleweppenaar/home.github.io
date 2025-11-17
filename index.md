@@ -17,32 +17,25 @@
 
 Canadian. South African. Software. Privacy. Security.
 
-<span class="inline-flags" aria-hidden="false">
-  <!-- Canada (inline SVG) -->
-  <svg class="flag" role="img" aria-labelledby="caTitle" focusable="false" width="1em" height="1em" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+<span class="inline-flags">
+  <svg class="flag" role="img" aria-labelledby="caTitle" focusable="false" width="1.33em" height="1em" viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg">
     <title id="caTitle">Flag of Canada</title>
-    <rect width="16" height="32" x="0" y="0" fill="#FF0000"/>
-    <rect width="32" height="32" x="16" y="0" fill="#FFFFFF"/>
-    <rect width="16" height="32" x="48" y="0" fill="#FF0000"/>
-    <g transform="translate(32,16) scale(0.9)" fill="#FF0000" stroke="none" aria-hidden="true">
+    <rect width="16" height="48" x="0" y="0" fill="#FF0000"/>
+    <rect width="32" height="48" x="16" y="0" fill="#FFFFFF"/>
+    <rect width="16" height="48" x="48" y="0" fill="#FF0000"/>
+    <g transform="translate(32,24) scale(1.2)" fill="#FF0000" stroke="none" aria-hidden="true">
       <path d="M0,-8.2 l1.9,1.6 0.8,3.1 3.2,0.6 -2.2,2.2 0.6,3.4 -3.0,-1.4 -2.5,1.4 0.5,-3.4 -2.2,-2.1 3.0,-0.6 0.9,-2.9 1.8,-1.6z"/>
       <path d="M0,1.6 L1.0,6.0 -1.0,6.0 Z" fill="#FF0000"/>
     </g>
-  </svg>
-
-  <!-- South Africa (inline SVG) -->
-  <svg class="flag" role="img" aria-labelledby="zaTitle" focusable="false" width="1em" height="1em" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+  </svg><svg class="flag" role="img" aria-labelledby="zaTitle" focusable="false" width="1.33em" height="1em" viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg">
     <title id="zaTitle">Flag of South Africa</title>
-    <rect width="60" height="30" fill="#DE3831"/>
-    <rect y="15" width="60" height="15" fill="#003897"/>
-    <polygon points="0,0 20,15 0,30" fill="#FFB612"/>
-    <polygon points="0,3 16,15 0,27" fill="#000000"/>
-    <polygon points="0,0 22,0 60,12 60,18 22,30 0,30 0,20 18,15 0,10" fill="#FFFFFF"/>
-    <polygon points="0,2 20,2 56,12 56,18 20,28 0,28 0,20 18,15 0,10" fill="#007A4D"/>
-  </svg>
-
-  <!-- native lock emoji kept as single codepoint with accessible label -->
-  <span role="img" aria-label="Lock">🔒</span>
+    <rect width="90" height="60" fill="#DE3831"/>
+    <rect y="30" width="90" height="30" fill="#003897"/>
+    <polygon points="0,0 30,30 0,60" fill="#FFB612"/>
+    <polygon points="0,6 24,30 0,54" fill="#000000"/>
+    <polygon points="0,0 33,0 90,24 90,36 33,60 0,60 0,40 27,30 0,20" fill="#FFFFFF"/>
+    <polygon points="0,4 30,4 84,24 84,36 30,56 0,56 0,40 27,30 0,20" fill="#007A4D"/>
+  </svg><span role="img" aria-label="Lock">🔒</span>
 </span>
 
 <p class="lead">
