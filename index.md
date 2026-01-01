@@ -3,7 +3,7 @@
   <img
     src="/assets/images/profile.jpeg"
     srcset="/assets/images/profile.jpeg 1x, /assets/images/profile@2x.jpeg 2x"
-    alt="A portrait shot of De Ville Weppenaar from the shoulders up wearing a cap standing in front of a background of foliage and red flowers."
+    alt="Portrait of De Ville Weppenaar in a garden with a blurred leafy arch in the background."
     class="gravatar"
     width="150"
     height="150"
