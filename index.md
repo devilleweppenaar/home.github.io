@@ -3,7 +3,7 @@
   <img
     src="/assets/images/profile.jpeg"
     srcset="/assets/images/profile.jpeg 1x, /assets/images/profile@2x.jpeg 2x"
-    alt="A man wearing a grey cap and a black sleeveless puffer vest over a purple shirt is smiling and posing for a photo in front of a green arch with pink flowers. The background is blurred, with trees and a couple of people walking away in the distance. The man's cap has the word &quot;Legend Distilling&quot; written on it in gold cursive letters."
+    alt="A man wearing a grey cap and a black sleeveless puffer vest over a purple shirt is smiling and posing for a photo in front of a green arch with pink flowers. The background is blurred, with trees and a couple of people walking away in the distance. The man's cap has the word 'Legend Distilling' written on it in gold cursive letters."
     class="gravatar"
     width="150"
     height="150"
