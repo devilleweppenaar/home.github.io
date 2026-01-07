@@ -26,3 +26,12 @@ Avoid:
 ## Commit signing
 
 All commits must be signed. This is enforced by branch protection rules on main.
+
+## Git configuration
+
+The repository uses a GitHub noreply email for privacy:
+```bash
+git config user.email "11049609+devilleweppenaar@users.noreply.github.com"
+```
+
+This keeps personal email addresses private while maintaining commit verification on GitHub.

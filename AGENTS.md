@@ -90,6 +90,8 @@ The goal is a readable history where each commit represents a logical unit of wo
 
 - Avoid including email addresses in documentation or code comments
 - Be mindful of what is committed to public repository
+- Git commits use GitHub noreply email: `11049609+devilleweppenaar@users.noreply.github.com`
+- Never commit personal email addresses in git history or file contents
 
 ## When in doubt
 
