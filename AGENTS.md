@@ -16,6 +16,20 @@ Guidelines for AI agents working on this personal website repository.
 - All commits must be signed
 - See CONTRIBUTING.md for examples
 
+### Committing changes
+
+**Always ask for permission before committing.** Do not automatically run `git commit` after making changes. Present the changes and ask if it's okay to commit them.
+
+### Rebasing and commit organization
+
+Rebasing is encouraged to organize commits into logical sets of changes. Prefer clear, well-organized commit history over chronological accuracy. Feel free to:
+- Squash related changes into single commits
+- Reorder commits to group related work
+- Split commits that contain unrelated changes
+- Rewrite commit messages for clarity
+
+The goal is a readable history where each commit represents a logical unit of work.
+
 ## Performance requirements
 
 **Maintain 100/100 PageSpeed Insights score** on both desktop and mobile.
