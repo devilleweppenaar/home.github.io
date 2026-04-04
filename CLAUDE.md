@@ -20,7 +20,9 @@ The entire site is one page (`index.md`) rendered through `_layouts/default.html
 
 ## Favicon system
 
-`favicon.svg` is the source of truth — Fira Code Regular glyphs converted to paths. Regenerate all PNG sizes with:
+`favicon.svg` is the source of truth — Fira Code Regular glyphs converted to paths. Font: `~/Library/Fonts/FiraCodeNerdFont-Regular.ttf`. Required: `pip3 install fonttools pillow` and `brew install librsvg`. `sips` cannot convert SVG→PNG.
+
+Regenerate all PNG sizes with:
 
 ```bash
 rsvg-convert -w <size> -h <size> favicon.svg -o <output>.png
@@ -30,10 +32,12 @@ Standard sizes: 16, 32 (browser tabs), 180 (apple-touch-icon), 192 and 512 (andr
 
 ```python
 from PIL import Image
-img32 = Image.open('favicon-32x32.png')
-img16 = Image.open('favicon-16x16.png')
-img32.save('favicon.ico', format='ICO', sizes=[(16,16),(32,32)], append_images=[img16])
+img16 = Image.open('favicon-16x16.png').convert('RGBA')
+img32 = Image.open('favicon-32x32.png').convert('RGBA')
+img16.save('favicon.ico', format='ICO', append_images=[img32])
 ```
+
+**Safari tab caveat:** Safari clips ALL tab favicons to its own rounded-rect mask. The solid `#111` background is intentional — adding transparent corners to "fix" the grey corner bleed triggers a more visible white outline instead. This is an accepted Safari limitation.
 
 ## Key constraints
 
