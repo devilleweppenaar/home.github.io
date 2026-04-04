@@ -4,9 +4,8 @@
 @import "{{ site.theme }}";
 
 :root {
-  /* Primary chosen purple accent (more vivid, recommended for h1) */
   --accent: #7C4DFF;
-  /* RGB form for use with rgba() */
+  /* RGB form for use with rgba() — CSS cannot extract components from hex at runtime */
   --accent-rgb: 124, 77, 255;
 }
 
@@ -21,7 +20,7 @@
   letter-spacing: -0.02em;
   margin-bottom: 0.25rem;
   /* reduce neon-like glow for readability */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.6), 0 0 6px rgba(124,77,255,0.08);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6), 0 0 6px rgba(var(--accent-rgb),0.08);
 }
 
 .gravatar {
@@ -39,12 +38,9 @@
 
 .social {
   font-size: 2em;
-  /* muted icon color to match body text */
   color: #cccccc;
-  /* 50% closer spacing (was 0.25em -> now ~0.125em) */
   margin-right: 0.125em;
   text-decoration: none;
-  vertical-align: middle;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +57,6 @@
   margin-right: 0;
 }
 
-/* Ensure SVGs render as block-level elements and make fills follow currentColor */
 .social svg {
   display: block;
 }
@@ -73,7 +68,6 @@
 
 .social:hover,
 .social:focus {
-  /* logo turns white on hover/focus and button shows a subtle purple background */
   color: #fff;
   background: rgba(var(--accent-rgb), 0.20);
   transform: translateY(-1px);
@@ -82,7 +76,6 @@
   outline: none;
 }
 
-/* Visible focus ring for keyboard users */
 .social:focus-visible {
   outline: 2px solid rgba(var(--accent-rgb), 0.32);
   outline-offset: 3px;
