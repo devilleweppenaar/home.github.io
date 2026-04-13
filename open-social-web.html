@@ -675,6 +675,12 @@
                 .hero {
                     padding: 64px 0 56px;
                 }
+                .hero-deck {
+                    font-size: 18px;
+                }
+                .hero-meta {
+                    gap: 16px;
+                }
                 section {
                     padding: 52px 0;
                 }
@@ -682,13 +688,18 @@
                     grid-template-columns: 1fr;
                     gap: 8px;
                 }
+                .stack-layer {
+                    flex-direction: column;
+                }
                 .stack-side {
-                    width: 80px;
+                    width: 100%;
+                    border-right: none;
+                    border-bottom: 1px solid var(--line);
+                    padding: 10px 16px;
                     font-size: 10px;
-                    padding: 16px 10px;
                 }
                 .problem-grid {
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: 1fr;
                 }
             }
         </style>
