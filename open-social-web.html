@@ -1,0 +1,1787 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The Open Social Web</title>
+        <meta
+            name="description"
+            content="What the open social web is, how AT Protocol works, and what's being built on it. A personal reference guide."
+        />
+        <meta property="og:title" content="The Open Social Web" />
+        <meta
+            property="og:description"
+            content="What the open social web is, how AT Protocol works, and what's being built on it. A personal reference guide."
+        />
+        <meta property="og:type" content="article" />
+        <meta
+            property="og:url"
+            content="https://devilleweppenaar.ca/open-social-web.html"
+        />
+        <style>
+            :root {
+                /* Backgrounds — slightly cooler/bluer darks to complement purple */
+                --bg: #0d0c10;
+                --bg2: #13111a;
+                --bg3: #1a1824;
+                --bg4: #221f2e;
+                --surface: #2a2738;
+                --line: #363245;
+                --muted: #6b6680;
+                --secondary: #9e9ab8;
+                --primary: #ccc8e0;
+                --bright: #ece9f8;
+                /* Accent 1 — vivid violet; #a78bfa on #0d0c10 → ~8.1:1 contrast (WCAG AAA) */
+                --accent: #a78bfa;
+                /* Accent 2 — indigo-periwinkle; #818cf8 on #0d0c10 → ~6.4:1 (WCAG AA) */
+                --accent2: #818cf8;
+                /* Accent 3 — pale lavender; #c4b5fd on #0d0c10 → ~10.4:1 (WCAG AAA) */
+                --accent3: #c4b5fd;
+                --red: #f87171;
+            }
+
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            @media (prefers-reduced-motion: no-preference) {
+                html {
+                    scroll-behavior: smooth;
+                }
+            }
+
+            body {
+                font-family:
+                    Charter, "Bitstream Charter", "Sitka Text", Cambria,
+                    Georgia, serif;
+                font-weight: 300;
+                font-size: 18px;
+                line-height: 1.8;
+                background: var(--bg);
+                color: var(--primary);
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* ── Layout ─────────────────────────────────────── */
+            .wrap {
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 0 32px;
+            }
+
+            /* ── Navigation ──────────────────────────────────── */
+            nav {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(13, 12, 16, 0.93);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--line);
+                padding: 14px 0;
+            }
+            nav .inner {
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 0 32px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+            nav .inner::-webkit-scrollbar {
+                display: none;
+            }
+            nav .brand {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 15px;
+                color: var(--accent);
+                white-space: nowrap;
+                flex-shrink: 0;
+                text-decoration: none;
+            }
+            nav a {
+                font-family:
+                    Charter, "Bitstream Charter", "Sitka Text", Cambria,
+                    Georgia, serif;
+                font-size: 12px;
+                font-weight: 400;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+                white-space: nowrap;
+                transition: color 0.15s;
+            }
+            nav a:hover {
+                color: var(--primary);
+            }
+
+            /* ── Hero ─────────────────────────────────────────── */
+            .hero {
+                padding: 100px 0 80px;
+                border-bottom: 1px solid var(--line);
+            }
+            .hero-eyebrow {
+                font-size: 11px;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 24px;
+            }
+            h1 {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: clamp(42px, 7vw, 74px);
+                font-weight: 700;
+                line-height: 1.04;
+                letter-spacing: -0.02em;
+                color: var(--bright);
+                margin-bottom: 28px;
+            }
+            h1 em {
+                font-style: italic;
+                color: var(--accent);
+            }
+            .hero-deck {
+                font-size: 21px;
+                font-weight: 300;
+                line-height: 1.6;
+                color: var(--secondary);
+                max-width: 620px;
+                margin-bottom: 36px;
+            }
+            .hero-meta {
+                font-size: 12px;
+                letter-spacing: 0.08em;
+                color: var(--muted);
+                border-top: 1px solid var(--line);
+                padding-top: 20px;
+                display: flex;
+                gap: 32px;
+                flex-wrap: wrap;
+            }
+            .hero-meta a {
+                color: var(--accent2);
+                text-decoration: none;
+            }
+            .hero-meta a:hover {
+                text-decoration: underline;
+            }
+
+            /* ── Sections ────────────────────────────────────── */
+            section {
+                padding: 72px 0;
+                border-bottom: 1px solid var(--line);
+            }
+            section:last-of-type {
+                border-bottom: none;
+            }
+
+            h2 {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: clamp(28px, 4vw, 40px);
+                font-weight: 400;
+                line-height: 1.15;
+                color: var(--bright);
+                letter-spacing: -0.01em;
+                margin-bottom: 28px;
+            }
+            h2 em {
+                font-style: italic;
+            }
+
+            h3 {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 22px;
+                font-weight: 400;
+                color: var(--primary);
+                margin: 44px 0 14px;
+                line-height: 1.3;
+            }
+
+            h4 {
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin: 32px 0 10px;
+            }
+
+            p {
+                margin-bottom: 22px;
+                color: var(--primary);
+            }
+            p:last-child {
+                margin-bottom: 0;
+            }
+
+            strong {
+                font-weight: 600;
+                color: var(--bright);
+            }
+            em {
+                font-style: italic;
+            }
+            a {
+                color: var(--accent2);
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+
+            code {
+                font-family: "SF Mono", "Fira Code", monospace;
+                font-size: 0.82em;
+                background: var(--surface);
+                color: var(--accent);
+                border-radius: 3px;
+                padding: 2px 7px;
+            }
+
+            /* ── Pull quote ──────────────────────────────────── */
+            blockquote {
+                border-left: 2px solid var(--accent);
+                margin: 40px 0;
+                padding: 4px 0 4px 28px;
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: clamp(19px, 2.5vw, 24px);
+                font-style: italic;
+                line-height: 1.5;
+                color: var(--secondary);
+            }
+
+            blockquote small {
+                display: block;
+                margin-top: 10px;
+                font-family:
+                    Charter, "Bitstream Charter", "Sitka Text", Cambria,
+                    Georgia, serif;
+                font-size: 14px;
+                font-style: normal;
+                color: var(--muted);
+            }
+            blockquote small a {
+                color: var(--accent2);
+            }
+
+            /* ── Section label ───────────────────────────────── */
+            .section-label {
+                display: inline-block;
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent);
+                border: 1px solid rgba(167, 139, 250, 0.3);
+                border-radius: 3px;
+                padding: 3px 9px;
+                margin-bottom: 20px;
+            }
+
+            /* ── Problem cards ───────────────────────────────── */
+            .problem-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 2px;
+                margin: 32px 0;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .problem-card {
+                background: var(--bg2);
+                padding: 24px 22px;
+                transition: background 0.15s;
+            }
+            .problem-card:hover {
+                background: var(--bg3);
+            }
+            .problem-icon {
+                font-size: 18px;
+                margin-bottom: 10px;
+                display: block;
+                opacity: 0.8;
+            }
+            .problem-title {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 16px;
+                color: var(--bright);
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+            .problem-body {
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--secondary);
+            }
+
+            /* ── Comparison ──────────────────────────────────── */
+            .compare {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 28px 0;
+                font-size: 15px;
+            }
+            .compare thead th {
+                padding: 10px 16px;
+                text-align: left;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--muted);
+                border-bottom: 1px solid var(--line);
+            }
+            .compare thead th:first-child {
+                width: 30%;
+            }
+            .compare td {
+                padding: 13px 16px;
+                border-bottom: 1px solid rgba(54, 50, 69, 0.6);
+                color: var(--primary);
+                font-size: 15px;
+                vertical-align: top;
+                line-height: 1.5;
+            }
+            .compare tr:last-child td {
+                border-bottom: none;
+            }
+            .compare td:first-child {
+                color: var(--secondary);
+                font-size: 14px;
+            }
+            .good {
+                color: #4ade80;
+                font-weight: 600;
+            } /* emerald; #4ade80 on #0d0c10 → ~8.3:1 WCAG AAA */
+            .bad {
+                color: var(--red);
+            }
+            /* ── Stack diagram ───────────────────────────────── */
+            .stack {
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                overflow: hidden;
+                margin: 32px 0;
+            }
+            .stack-layer {
+                display: flex;
+                align-items: flex-start;
+                gap: 0;
+                border-bottom: 1px solid var(--line);
+            }
+            .stack-layer:last-child {
+                border-bottom: none;
+            }
+            .stack-side {
+                width: 110px;
+                flex-shrink: 0;
+                padding: 20px 16px;
+                background: var(--bg2);
+                border-right: 1px solid var(--line);
+                font-size: 11px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--muted);
+                display: flex;
+                align-items: flex-start;
+                padding-top: 22px;
+            }
+            .stack-content {
+                flex: 1;
+                padding: 18px 22px;
+                background: var(--bg3);
+            }
+            .stack-name {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 17px;
+                font-weight: 400;
+                color: var(--bright);
+                margin-bottom: 4px;
+            }
+            .stack-desc {
+                font-size: 14px;
+                color: var(--secondary);
+                line-height: 1.55;
+            }
+            .stack-layer.highlight .stack-content {
+                background: var(--bg4);
+                border-left: 2px solid var(--accent);
+            }
+
+            /* ── App cards ───────────────────────────────────── */
+            .app-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+                margin: 28px 0;
+            }
+            .app-card {
+                background: var(--bg3);
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 20px;
+                transition:
+                    border-color 0.15s,
+                    background 0.15s;
+            }
+            .app-card:hover {
+                border-color: var(--muted);
+                background: var(--bg4);
+            }
+            .app-cat {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+            .app-cat.social {
+                color: var(--accent3);
+            } /* pale lavender */
+            .app-cat.media {
+                color: var(--accent);
+            } /* vivid violet  */
+            .app-cat.tools {
+                color: var(--accent2);
+            } /* indigo-periwinkle */
+            .app-cat.infra {
+                color: var(--muted);
+            }
+
+            .app-name {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--bright);
+                margin-bottom: 6px;
+            }
+            .app-desc {
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--secondary);
+            }
+
+            /* ── Category section headings ───────────────────── */
+            .cat-header {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin: 48px 0 20px;
+            }
+            .cat-header::before {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--line);
+            }
+            .cat-label {
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--muted);
+                white-space: nowrap;
+            }
+            .cat-header::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--line);
+            }
+
+            /* ── Glossary ─────────────────────────────────────── */
+            .glossary {
+                margin: 28px 0;
+            }
+            .glossary-item {
+                padding: 18px 0;
+                border-bottom: 1px solid rgba(54, 50, 69, 0.6);
+                display: grid;
+                grid-template-columns: 160px 1fr;
+                gap: 24px;
+            }
+            .glossary-item:last-child {
+                border-bottom: none;
+            }
+            .glossary-term {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 16px;
+                font-weight: 400;
+                color: var(--bright);
+                padding-top: 2px;
+            }
+            .glossary-def {
+                font-size: 15px;
+                color: var(--secondary);
+                line-height: 1.65;
+            }
+
+            /* ── Further reading ─────────────────────────────── */
+            .reading-list {
+                margin: 24px 0;
+            }
+            .reading-item {
+                display: flex;
+                gap: 20px;
+                padding: 18px 0;
+                border-bottom: 1px solid rgba(54, 50, 69, 0.6);
+            }
+            .reading-item:last-child {
+                border-bottom: none;
+            }
+            .reading-num {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 22px;
+                font-style: italic;
+                color: var(--line);
+                flex-shrink: 0;
+                width: 28px;
+                padding-top: 2px;
+            }
+            .reading-meta {
+                flex: 1;
+            }
+            .reading-source {
+                font-size: 11px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 4px;
+            }
+            .reading-title {
+                font-family:
+                    "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+                    Palatino, Georgia, serif;
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--primary);
+                line-height: 1.3;
+                margin-bottom: 6px;
+                text-decoration: none;
+                display: inline-block;
+                transition: color 0.15s;
+            }
+            .reading-title:hover {
+                color: var(--accent2);
+            }
+            .reading-desc {
+                font-size: 14px;
+                color: var(--secondary);
+                line-height: 1.55;
+            }
+
+            /* ── Footer ──────────────────────────────────────── */
+            footer {
+                padding: 40px 0 60px;
+                border-top: 1px solid var(--line);
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                font-size: 13px;
+                color: var(--muted);
+            }
+            footer a {
+                color: var(--muted);
+                text-decoration: none;
+            }
+            footer a:hover {
+                color: var(--secondary);
+            }
+
+            /* ── Scroll offset for sticky nav ───────────────── */
+            [id] {
+                scroll-margin-top: 68px;
+            }
+
+            /* ── App card as link ────────────────────────────── */
+            a.app-card {
+                display: block;
+                text-decoration: none;
+                color: inherit;
+            }
+            a.app-card:hover {
+                border-color: var(--accent2);
+                background: var(--bg4);
+            }
+            a.app-card .app-name::after {
+                content: " ↗";
+                font-size: 12px;
+                opacity: 0;
+                color: var(--accent2);
+                transition: opacity 0.15s;
+            }
+            a.app-card:hover .app-name::after {
+                opacity: 1;
+            }
+
+            /* ── Focus styles ───────────────────────────────── */
+            :focus-visible {
+                outline: 2px solid var(--accent);
+                outline-offset: 3px;
+                border-radius: 3px;
+            }
+
+            /* ── Screen-reader only ─────────────────────────── */
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+
+            /* ── Responsive ──────────────────────────────────── */
+            @media (max-width: 600px) {
+                .wrap {
+                    padding: 0 20px;
+                }
+                .hero {
+                    padding: 64px 0 56px;
+                }
+                section {
+                    padding: 52px 0;
+                }
+                .glossary-item {
+                    grid-template-columns: 1fr;
+                    gap: 8px;
+                }
+                .stack-side {
+                    width: 80px;
+                    font-size: 10px;
+                    padding: 16px 10px;
+                }
+                .problem-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav aria-label="Page sections">
+            <div class="inner">
+                <a class="brand" href="#top">Open Social Web</a>
+                <a href="#problem">The Problem</a>
+                <a href="#atproto">AT Protocol</a>
+                <a href="#how">How It Works</a>
+                <a href="#ecosystem">Ecosystem</a>
+                <a href="#glossary">Glossary</a>
+                <a href="#reading">Reading</a>
+            </div>
+        </nav>
+
+        <main>
+            <!-- ── HERO ─────────────────────────────────────────── -->
+            <div class="wrap" id="top">
+                <div class="hero">
+                    <p class="hero-eyebrow">A personal reference guide</p>
+                    <h1>The <em>Open</em><br />Social Web</h1>
+                    <p class="hero-deck">
+                        Social media doesn't have to be owned by corporations
+                        and controlled by billionaires. Here's what the
+                        alternative looks like — and why it's more exciting than
+                        anything Big Tech has built.
+                    </p>
+                    <div class="hero-meta">
+                        <span
+                            >Primary source:
+                            <a
+                                href="https://atproto.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >atproto.com</a
+                            ></span
+                        >
+                        <span>43M+ users on the network</span>
+                        <span>1,000+ apps using atproto weekly</span>
+                        <span>Updated April 2026</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── THE PROBLEM ──────────────────────────────────── -->
+            <div class="wrap" id="problem">
+                <section>
+                    <span class="section-label">Why this matters</span>
+                    <h2>
+                        The Problem with<br /><em>Conventional Social Media</em>
+                    </h2>
+
+                    <p>
+                        For the last two decades, most of what we call "social
+                        media" has followed the same basic model: a private
+                        company builds the platform, owns all the data, controls
+                        all the rules, and monetizes your attention. You are not
+                        the customer. You are the product.
+                    </p>
+
+                    <p>
+                        This model has produced some genuinely remarkable things
+                        — global real-time conversation, discovery, community.
+                        But it has also produced something darker: a small
+                        number of extraordinarily powerful platforms with
+                        near-total control over public discourse, and the people
+                        who end up running them.
+                    </p>
+
+                    <blockquote>
+                        "What open source did for code, open social does for
+                        data."<br /><small
+                            >—
+                            <a
+                                href="https://overreacted.io/open-social/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >Dan Abramov</a
+                            >, <em>Open Social</em> (overreacted.io)</small
+                        >
+                    </blockquote>
+
+                    <p>
+                        The problems are structural, not just a matter of who
+                        happens to be in charge today.
+                    </p>
+
+                    <div class="problem-grid">
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >🔒</span
+                            >
+                            <div class="problem-title">
+                                You don't own your account
+                            </div>
+                            <div class="problem-body">
+                                Your followers, your posts, your history — all
+                                of it lives in someone else's database. They can
+                                delete your account, restrict your reach, or
+                                shut down entirely. You have no recourse.
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >🚪</span
+                            >
+                            <div class="problem-title">
+                                No exit, no leverage
+                            </div>
+                            <div class="problem-body">
+                                If you disagree with a platform's direction or
+                                ownership, you can leave — but only by
+                                abandoning everything you've built. Your
+                                followers can't follow you out the door.
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >👁</span
+                            >
+                            <div class="problem-title">Opaque algorithms</div>
+                            <div class="problem-body">
+                                What you see, and who sees you, is controlled by
+                                algorithms you can't inspect, adjust, or verify.
+                                Engagement and outrage are rewarded because they
+                                maximize time-on-app.
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >👑</span
+                            >
+                            <div class="problem-title">Concentrated power</div>
+                            <div class="problem-body">
+                                As billionaires acquire major platforms, it
+                                becomes clear that decisions affecting billions
+                                of people's speech can hinge on one person's
+                                mood, incentives, or politics.
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >🚫</span
+                            >
+                            <div class="problem-title">API lockdowns</div>
+                            <div class="problem-body">
+                                Third-party developers once built rich tools and
+                                services on top of social platforms. Those APIs
+                                are now paywalled, restricted, or shut entirely
+                                — killing the ecosystem.
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <span class="problem-icon" aria-hidden="true"
+                                >💰</span
+                            >
+                            <div class="problem-title">Monetized attention</div>
+                            <div class="problem-body">
+                                Every design decision is driven by ad revenue
+                                and engagement metrics. The result is platforms
+                                optimized to keep you anxious and scrolling, not
+                                informed or connected.
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        These aren't bugs that can be patched by a better CEO or
+                        a new content policy. They're built into the
+                        architecture. The only real fix is a different
+                        architecture entirely.
+                    </p>
+                </section>
+            </div>
+
+            <!-- ── AT PROTOCOL ──────────────────────────────────── -->
+            <div class="wrap" id="atproto">
+                <section>
+                    <span class="section-label">The Alternative</span>
+                    <h2>AT Protocol:<br /><em>A New Foundation</em></h2>
+
+                    <p>
+                        The <strong>AT Protocol</strong> (Authenticated Transfer
+                        Protocol) is an open standard for building social
+                        applications — not owned by any one company, not
+                        controlled by any one person. Think of it the way you
+                        think about email: anyone can send an email to anyone
+                        else, through any provider, using any app. The AT
+                        Protocol is trying to do the same thing for social
+                        media.
+                    </p>
+
+                    <p>
+                        It was created by <strong>Bluesky Social PBC</strong>,
+                        originally as a project incubated at Twitter, and is now
+                        being developed as an open standard. In 2025, the IETF
+                        (the same body that standardizes the internet's core
+                        protocols) began the process of standardizing AT
+                        Protocol; the working group charter was formally
+                        published in January 2026, and the ATP working group was
+                        officially formed in late March 2026 — a significant
+                        signal that this isn't a startup experiment, it's
+                        infrastructure.
+                    </p>
+
+                    <p>
+                        As of early 2026, the network has over
+                        <strong>43 million users</strong>, more than a thousand
+                        apps built on it, and 400,000 SDK downloads per month.
+                        It raised $100M in Series B funding in April 2025 — with
+                        backing from the Knight Foundation, which exists
+                        specifically to support press freedom and the public
+                        interest.
+                    </p>
+
+                    <h3>The Core Insight</h3>
+
+                    <p>
+                        The problem with today's social platforms isn't that
+                        they're social, or that they aggregate content, or that
+                        they use algorithms. All of that is genuinely valuable.
+                        The problem is that
+                        <em
+                            >your identity and your data are trapped inside one
+                            company's database</em
+                        >.
+                    </p>
+
+                    <p>
+                        AT Protocol separates those things. Your identity — your
+                        username, your reputation, your social graph — is yours,
+                        not the platform's. Your data lives in a repository you
+                        control. Apps are readers and writers into that data,
+                        not owners of it. If an app turns bad, or gets acquired,
+                        or raises its prices, you can walk away without losing
+                        anything.
+                    </p>
+
+                    <h3>How It Differs from Other Approaches</h3>
+
+                    <table class="compare">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <span class="sr-only">Feature</span>
+                                </th>
+                                <th scope="col">Big Tech platforms</th>
+                                <th scope="col">AT Protocol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Who owns your username</td>
+                                <td><span class="bad">The platform</span></td>
+                                <td>
+                                    <span class="good"
+                                        >You do — it's a domain name</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Where your data lives</td>
+                                <td><span class="bad">Their database</span></td>
+                                <td>
+                                    <span class="good"
+                                        >Your personal data server</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>What happens if you leave</td>
+                                <td>
+                                    <span class="bad"
+                                        >Start over from nothing</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="good"
+                                        >Take everything with you</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Who controls the algorithm</td>
+                                <td><span class="bad">One company</span></td>
+                                <td>
+                                    <span class="good"
+                                        >Anyone can build one; you choose</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>API access</td>
+                                <td>
+                                    <span class="bad"
+                                        >Restricted, paywalled, revocable</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="good"
+                                        >Open firehose, no key required</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Moderation</td>
+                                <td>
+                                    <span class="bad">One company decides</span>
+                                </td>
+                                <td>
+                                    <span class="good"
+                                        >Decentralized labeler services</span
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Who can build apps</td>
+                                <td>
+                                    <span class="bad"
+                                        >Requires platform permission</span
+                                    >
+                                </td>
+                                <td>
+                                    <span class="good"
+                                        >Anyone, permissionlessly</span
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>
+                        It's worth noting: AT Protocol is not a blockchain or
+                        cryptocurrency. It does not use tokens or require you to
+                        understand cryptography. It is a practical,
+                        engineer-facing protocol that borrows some ideas from
+                        peer-to-peer systems without the drawbacks that have
+                        made those systems hard to use.
+                    </p>
+                </section>
+            </div>
+
+            <!-- ── HOW IT WORKS ─────────────────────────────────── -->
+            <div class="wrap" id="how">
+                <section>
+                    <span class="section-label">Under the hood</span>
+                    <h2>How It <em>Actually</em> Works</h2>
+
+                    <p>
+                        You don't need to understand the technical details to
+                        use or appreciate the network. But here's a
+                        plain-language overview of the key pieces.
+                    </p>
+
+                    <h3>Your Identity</h3>
+
+                    <p>
+                        You have two identities on AT Protocol. Your
+                        <strong>handle</strong> is what people see: something
+                        like <code>@alice.bsky.social</code> or, if you own a
+                        domain, simply <code>@alice.com</code>. Usernames are
+                        literally just domain names — which means you can prove
+                        ownership of your identity the same way you prove
+                        ownership of a website.
+                    </p>
+
+                    <p>
+                        Your <strong>DID</strong> (Decentralized Identifier) is
+                        a permanent, machine-readable ID that never changes even
+                        if you change your username or move to a different
+                        hosting provider. Think of the handle as a phone number
+                        that can be ported, and the DID as a permanent record
+                        that follows you everywhere.
+                    </p>
+
+                    <h3>Your Data Repository</h3>
+
+                    <p>
+                        Everything you do on an AT Protocol network — a post, a
+                        like, a follow, a profile update — gets written as a
+                        small piece of structured data (JSON) into your personal
+                        <strong>repository</strong>. A repository is your
+                        personal database. You control it. It's hosted on a
+                        <strong>Personal Data Server (PDS)</strong>, which you
+                        can run yourself or entrust to a hosting provider — and
+                        switch providers any time.
+                    </p>
+
+                    <p>
+                        Because all data is cryptographically signed by you,
+                        anyone can verify that a piece of content actually came
+                        from you, even if they received it from a relay or a
+                        third-party app rather than directly from your server.
+                    </p>
+
+                    <h3>The Network Stack</h3>
+
+                    <div class="stack">
+                        <div class="stack-layer">
+                            <div class="stack-side">You interact with</div>
+                            <div class="stack-content">
+                                <div class="stack-name">Applications</div>
+                                <div class="stack-desc">
+                                    Bluesky, Flashes, WhiteWind, Smoke Signal,
+                                    or any app built on AT Protocol. Apps read
+                                    and write records on your behalf, with your
+                                    permission.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack-layer">
+                            <div class="stack-side">Connects to</div>
+                            <div class="stack-content">
+                                <div class="stack-name">
+                                    Labelers (moderation)
+                                </div>
+                                <div class="stack-desc">
+                                    Independent services that attach labels to
+                                    content — spam, adult material,
+                                    misinformation. You subscribe to whichever
+                                    labelers you trust.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack-layer">
+                            <div class="stack-side">Powered by</div>
+                            <div class="stack-content">
+                                <div class="stack-name">Relays / Firehose</div>
+                                <div class="stack-desc">
+                                    Relays collect activity from all Personal
+                                    Data Servers and rebroadcast it as a
+                                    real-time stream. Any developer can tap into
+                                    this firehose — no API key needed.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack-layer highlight">
+                            <div class="stack-side">Your data</div>
+                            <div class="stack-content">
+                                <div class="stack-name">
+                                    Personal Data Server (PDS)
+                                </div>
+                                <div class="stack-desc">
+                                    Hosts your repository — all your posts,
+                                    likes, follows, profile. You can self-host,
+                                    use a provider like Bluesky's, or switch
+                                    anytime without losing anything.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stack-layer">
+                            <div class="stack-side">Anchored by</div>
+                            <div class="stack-content">
+                                <div class="stack-name">
+                                    Identity layer (DID + Handle)
+                                </div>
+                                <div class="stack-desc">
+                                    Your permanent identity, independent of any
+                                    host. Cryptographic proof of who you are
+                                    that no single company controls.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>The Public Firehose</h3>
+
+                    <p>
+                        One of the most distinctive features of AT Protocol is
+                        the <strong>public firehose</strong> — a real-time
+                        stream of every public action happening on the network.
+                        It is open by default. No API key, no waitlist, no
+                        per-call pricing. Any developer can connect and build
+                        something on top of it: search engines, custom feeds,
+                        bots, analytics, archiving tools, anything.
+                    </p>
+
+                    <p>
+                        This is the opposite of what Twitter/X did when it shut
+                        down its free API. An open firehose means the ecosystem
+                        can grow in ways no single company could anticipate or
+                        control.
+                    </p>
+
+                    <h3>Moderation as a Service</h3>
+
+                    <p>
+                        Rather than one company deciding what everyone sees, AT
+                        Protocol separates moderation from hosting.
+                        <strong>Labelers</strong> are independent services that
+                        attach metadata to content — flagging spam, adult
+                        content, hate speech, or anything else. Users and apps
+                        can subscribe to whichever labelers they trust, and
+                        combine multiple labelers together. Communities can run
+                        their own. Researchers can build transparent ones.
+                        Companies can offer commercial ones.
+                    </p>
+
+                    <p>
+                        This doesn't mean "anything goes" — it means moderation
+                        is a competitive service rather than a monopoly, and you
+                        have real choice in who provides it.
+                    </p>
+                </section>
+            </div>
+
+            <!-- ── ECOSYSTEM ────────────────────────────────────── -->
+            <div class="wrap" id="ecosystem">
+                <section>
+                    <span class="section-label">What's being built</span>
+                    <h2>The <em>Atmosphere</em>:<br />Apps & Projects</h2>
+
+                    <p>
+                        The collection of apps, services, and infrastructure
+                        built on AT Protocol is called the
+                        <strong>Atmosphere</strong>. It is growing quickly —
+                        more than a thousand apps are in active use weekly,
+                        spanning social clients, photo and video, events,
+                        writing, and community infrastructure. All of them share
+                        the same identity layer: your <code>@handle</code> and
+                        social graph work across every one of them.
+                    </p>
+
+                    <p>
+                        The examples below represent a cross-section of what's
+                        being built. For a comprehensive, up-to-date directory
+                        of apps, feeds, and tools, see the
+                        <a
+                            href="https://blueskydirectory.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Bluesky Directory</a
+                        >.
+                    </p>
+
+                    <div class="cat-header">
+                        <span class="cat-label">Social networks & Clients</span>
+                    </div>
+                    <div class="app-grid">
+                        <a
+                            class="app-card"
+                            href="https://bsky.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">Flagship app</div>
+                            <div class="app-name">Bluesky</div>
+                            <div class="app-desc">
+                                The most popular AT Protocol app — 43M+ users,
+                                microblogging in the Twitter tradition, but with
+                                user-owned data and open feeds. The reference
+                                implementation of what AT Protocol can do.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://skylight.social"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">
+                                Video social network
+                            </div>
+                            <div class="app-name">Skylight</div>
+                            <div class="app-desc">
+                                A video-first social network with a "your feed,
+                                your rules" ethos — backed by Mark Cuban,
+                                featured in TechCrunch, WIRED, and TIME.
+                                Surpassed 380,000 users in January 2026. A
+                                Public Benefit Corporation legally committed to
+                                user wellbeing over profit. Sign in with your
+                                existing Bluesky account; your followers come
+                                with you.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://anisota.net"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">Alternative client</div>
+                            <div class="app-name">Anisota</div>
+                            <div class="app-desc">
+                                A radical rethink of the social feed. Instead of
+                                endless scrolling, you flip through a finite
+                                deck of posts like trading cards — each with a
+                                "rarity" rating in place of engagement counts.
+                                Stamina limits discourage compulsive use. Calm,
+                                nature-themed, deliberately slow. Built by an
+                                independent artist in Appalachia.
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="cat-header">
+                        <span class="cat-label">Photo & Video</span>
+                    </div>
+                    <div class="app-grid">
+                        <a
+                            class="app-card"
+                            href="https://www.flashes.blue"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat media">Photo sharing</div>
+                            <div class="app-name">Flashes</div>
+                            <div class="app-desc">
+                                An Instagram-style photo sharing app built on AT
+                                Protocol. Hit 30,000 downloads in its first 24
+                                hours after launching in February 2025. Supports
+                                filters, a Portfolio Mode for photographers, and
+                                curated artist feeds.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://sprk.so"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat media">Short video</div>
+                            <div class="app-name">Spark</div>
+                            <div class="app-desc">
+                                A video-first app built directly on AT Protocol
+                                — not just on Bluesky — with longer video
+                                support, filters, effects, and a music library.
+                                Featured in Forbes and TechCrunch. Currently in
+                                open beta.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://stream.place"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat media">Livestreaming</div>
+                            <div class="app-name">Streamplace</div>
+                            <div class="app-desc">
+                                The first livestreaming platform built on AT
+                                Protocol. All content is cryptographically
+                                signed by creators. Streamplace 2.0 — backed by
+                                Livepeer — launched in 2026, adding
+                                video-on-demand and deeper ecosystem
+                                integration. Powers the official ATmosphereConf
+                                conference stream. Available on iOS and Android,
+                                and supports OBS for desktop streaming.
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="cat-header">
+                        <span class="cat-label">Community & Events</span>
+                    </div>
+                    <div class="app-grid">
+                        <a
+                            class="app-card"
+                            href="https://smokesignal.events"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">Events & RSVPs</div>
+                            <div class="app-name">Smoke Signal</div>
+                            <div class="app-desc">
+                                An events and RSVP platform built on AT
+                                Protocol, written in Rust and fully open source.
+                                Organise events without surrendering your data
+                                to a platform like Eventbrite or Facebook
+                                Events.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://openmeet.net"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">Local communities</div>
+                            <div class="app-name">OpenMeet</div>
+                            <div class="app-desc">
+                                An open-source, free alternative to Meetup.com
+                                for interest groups, community networks, and
+                                local events. Events are published as AT
+                                Protocol records — portable and user-owned. Sign
+                                in with your Bluesky account directly.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://localsky.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat social">Local discovery</div>
+                            <div class="app-name">Localsky</div>
+                            <div class="app-desc">
+                                A city-level social layer on top of AT Protocol
+                                — browse posts tuned for local discovery so
+                                nearby updates don't get buried in a global
+                                feed. Log in with your existing Bluesky account.
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="cat-header">
+                        <span class="cat-label">Infrastructure & Scale</span>
+                    </div>
+
+                    <p>
+                        The ecosystem isn't just apps. A parallel wave of
+                        infrastructure projects is making sure the network
+                        doesn't depend on Bluesky alone to keep running.
+                    </p>
+
+                    <div class="app-grid">
+                        <a
+                            class="app-card"
+                            href="https://www.freeourfeeds.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat infra">Independent relay</div>
+                            <div class="app-name">Free Our Feeds</div>
+                            <div class="app-desc">
+                                An initiative — now formalised as the Modal
+                                Foundation, a Netherlands-based non-profit —
+                                building community-owned relay infrastructure so
+                                the firehose isn't solely operated by Bluesky.
+                                The goal: a network that no single company can
+                                switch off.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://eurosky.tech"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat infra">
+                                European infrastructure
+                            </div>
+                            <div class="app-name">EuroSky</div>
+                            <div class="app-desc">
+                                A European effort to run AT Protocol
+                                infrastructure independently — ensuring the open
+                                social web isn't concentrated exclusively in
+                                US-based servers and companies. In March 2026
+                                Eurosky announced a partnership with Igalia, the
+                                open-source consultancy, to develop core AT
+                                Protocol tools released under an open MIT
+                                licence.
+                            </div>
+                        </a>
+                        <a
+                            class="app-card"
+                            href="https://northskysocial.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div class="app-cat infra">Community-owned PDS</div>
+                            <div class="app-name">Northsky</div>
+                            <div class="app-desc">
+                                A safer social space for 2SLGBTQIA+ communities,
+                                run as a non-profit worker-owned cooperative in
+                                Canada. Operates its own AT Protocol PDS, with
+                                active moderation and democratic governance
+                                baked in from the start.
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ── GLOSSARY ─────────────────────────────────────── -->
+            <div class="wrap" id="glossary">
+                <section>
+                    <span class="section-label">Reference</span>
+                    <h2>Key <em>Terms</em></h2>
+
+                    <div class="glossary">
+                        <div class="glossary-item">
+                            <div class="glossary-term">AT Protocol</div>
+                            <div class="glossary-def">
+                                The open standard this whole document is about.
+                                Authenticated Transfer Protocol. The rules for
+                                how social data is stored, signed, and shared
+                                across the network.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">The Atmosphere</div>
+                            <div class="glossary-def">
+                                The name for the whole ecosystem of apps,
+                                services, and infrastructure built on AT
+                                Protocol. Like "the web" for this new social
+                                layer.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">DID</div>
+                            <div class="glossary-def">
+                                Decentralized Identifier. Your permanent,
+                                unchanging identity on the network — doesn't
+                                change even if you change your username or move
+                                servers.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Handle</div>
+                            <div class="glossary-def">
+                                Your human-readable username, like
+                                <code>@alice.bsky.social</code> or
+                                <code>@alice.com</code>. Based on a domain name.
+                                Can be changed; the DID stays constant
+                                underneath.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Repository</div>
+                            <div class="glossary-def">
+                                Your personal data store. All your posts, likes,
+                                follows, and profile data live here as
+                                structured records. You own it.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">PDS</div>
+                            <div class="glossary-def">
+                                Personal Data Server. Hosts your repository. Can
+                                be run by you, by Bluesky, or by any provider.
+                                Can be switched at any time without data loss.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Relay / Firehose</div>
+                            <div class="glossary-def">
+                                A relay collects activity from all PDSes and
+                                rebroadcasts it as a real-time stream. The
+                                firehose is that stream — open to anyone to
+                                read, build on, or archive.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Labeler</div>
+                            <div class="glossary-def">
+                                A moderation service that attaches labels to
+                                content or accounts. You subscribe to whichever
+                                labelers you trust. Moderation is decentralized,
+                                not monopolized.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Lexicon</div>
+                            <div class="glossary-def">
+                                The schema system for AT Protocol — defines what
+                                kinds of records exist and what they contain.
+                                <code>app.bsky.feed.post</code> is the schema
+                                for a Bluesky post; anyone can define new
+                                schemas for new apps.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">AT URI</div>
+                            <div class="glossary-def">
+                                The address format for data on the network:
+                                <code
+                                    >at://alice.com/app.bsky.feed.post/3k4da...</code
+                                >. Like a URL but tied to identity, not
+                                location.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">Federation</div>
+                            <div class="glossary-def">
+                                The ability for independent servers to
+                                interoperate. AT Protocol is a federated
+                                protocol — multiple hosts, one network — similar
+                                in spirit to email.
+                            </div>
+                        </div>
+                        <div class="glossary-item">
+                            <div class="glossary-term">ActivityPub</div>
+                            <div class="glossary-def">
+                                The other major open social protocol, used by
+                                Mastodon. Takes a different architectural
+                                approach; AT Protocol's key differences are
+                                account portability, global-scale feeds, and
+                                strong identity.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ── FURTHER READING ──────────────────────────────── -->
+            <div class="wrap" id="reading">
+                <section>
+                    <span class="section-label">Go deeper</span>
+                    <h2>Further <em>Reading</em></h2>
+
+                    <p>
+                        Everything below is free, publicly available, and worth
+                        your time.
+                    </p>
+
+                    <div class="reading-list">
+                        <div class="reading-item">
+                            <div class="reading-num">1</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    overreacted.io — Dan Abramov
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://overreacted.io/open-social/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Open Social</a
+                                >
+                                <div class="reading-desc">
+                                    The best non-technical introduction to what
+                                    AT Protocol is trying to do. Draws the
+                                    analogy between open source software and
+                                    open social data. Recommended by the AT
+                                    Protocol team themselves.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">2</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    overreacted.io — Dan Abramov
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://overreacted.io/where-its-at/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Where It's At://</a
+                                >
+                                <div class="reading-desc">
+                                    A follow-up explaining how handles, DIDs,
+                                    and hosting actually work. From usernames to
+                                    servers and back.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">3</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    overreacted.io — Dan Abramov
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://overreacted.io/a-social-filesystem/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >A Social Filesystem</a
+                                >
+                                <div class="reading-desc">
+                                    How the protocol treats social data as a
+                                    shared format rather than app-owned data —
+                                    "formats over apps."
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">4</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    atproto.com — Official docs
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://atproto.com/guides/understanding-atproto"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Understanding Atproto</a
+                                >
+                                <div class="reading-desc">
+                                    The official overview. Short and
+                                    well-organized. Good first stop if you want
+                                    the authoritative explanation.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">5</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    atproto.com — Official docs
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://atproto.com/articles/atproto-ethos"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >The Atproto Ethos</a
+                                >
+                                <div class="reading-desc">
+                                    A deep dive into the philosophy and design
+                                    principles behind the protocol. Explains why
+                                    certain tradeoffs were made and what they're
+                                    optimizing for.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">6</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">
+                                    atproto.com — Blog
+                                </div>
+                                <a
+                                    class="reading-title"
+                                    href="https://atproto.com/blog/2026-spring-roadmap"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >AT Protocol Roadmap (Spring 2026)</a
+                                >
+                                <div class="reading-desc">
+                                    The latest public roadmap from the Bluesky
+                                    protocol team — what's been shipped, what's
+                                    coming next, and where the community is
+                                    heading.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">7</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">TechCrunch</div>
+                                <a
+                                    class="reading-title"
+                                    href="https://techcrunch.com/2025/06/13/beyond-bluesky-these-are-the-apps-building-social-experiences-on-the-at-protocol/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >Beyond Bluesky: Apps building social
+                                    experiences on AT Protocol</a
+                                >
+                                <div class="reading-desc">
+                                    A comprehensive rundown of consumer-facing
+                                    apps in the ecosystem — photo sharing,
+                                    video, blogging, events, analytics, and
+                                    more.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reading-item">
+                            <div class="reading-num">8</div>
+                            <div class="reading-meta">
+                                <div class="reading-source">atprotocol.dev</div>
+                                <a
+                                    class="reading-title"
+                                    href="https://atprotocol.dev"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    >AT Protocol Community</a
+                                >
+                                <div class="reading-desc">
+                                    The community hub for builders on AT
+                                    Protocol. Tech talks, project spotlights,
+                                    the ATmosphereConf conference, and the
+                                    IndieSky working group.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <div class="wrap">
+            <footer>
+                <span
+                    >Primary source:
+                    <a
+                        href="https://atproto.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >atproto.com</a
+                    >
+                    · Community:
+                    <a
+                        href="https://atprotocol.dev"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >atprotocol.dev</a
+                    ></span
+                >
+                <span>Personal reference document · Updated April 2026</span>
+            </footer>
+        </div>
+    </body>
+</html>
