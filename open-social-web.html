@@ -27,7 +27,7 @@
                 --bg4: #221f2e;
                 --surface: #2a2738;
                 --line: #363245;
-                --muted: #6b6680;
+                --muted: #7f7b98;
                 --secondary: #9e9ab8;
                 --primary: #ccc8e0;
                 --bright: #ece9f8;
@@ -170,10 +170,8 @@
             }
             .hero-meta a {
                 color: var(--accent2);
-                text-decoration: none;
-            }
-            .hero-meta a:hover {
                 text-decoration: underline;
+                text-underline-offset: 3px;
             }
 
             /* ── Sections ────────────────────────────────────── */
@@ -241,6 +239,11 @@
             }
             a:hover {
                 text-decoration: underline;
+            }
+            p a,
+            blockquote small a {
+                text-decoration: underline;
+                text-underline-offset: 3px;
             }
 
             code {
@@ -611,7 +614,8 @@
             }
             footer a {
                 color: var(--muted);
-                text-decoration: none;
+                text-decoration: underline;
+                text-underline-offset: 3px;
             }
             footer a:hover {
                 color: var(--secondary);
