@@ -15,7 +15,7 @@
 
 # de ville weppenaar
 
-Canadian. South African. Software. Privacy. Security.
+Canadian. South African. Privacy. Security.
 
 <p class="lead">
   <a href="https://bsky.app/profile/dv.social" aria-label="Bluesky" target="_blank" rel="noopener noreferrer" class="social">
